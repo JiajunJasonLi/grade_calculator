@@ -278,3 +278,11 @@ class Course():
             category_list.append(each_category)
         # Return the list
         return category_list
+
+    def get_total_percentage(self):
+        '''
+        (Course) -> float
+        Return the sum of percentage of all categories in Course 
+        '''
+
+        return sum(self._percentage.values())
