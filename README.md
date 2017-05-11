@@ -1,5 +1,9 @@
 # grade calculator and predictor
 
+Thanks for taking a look at my project of grade calculator and predictor.\
+It can help a user to record all the grade in a course and help him to predict the grade he needs to get in the remaining tasks in oreder to get the grade he expects
+
+
 The project includes four parts of python codes:
 
 1. Course.py\
@@ -49,4 +53,7 @@ The first element is the name of the category, the second element is the percent
 Please refer to MATA23.txt to see in detail.\
 
 2) Auto predicting\
-The second part 
+The second part has a function prediction(input_course), which asks the user to input a course object for prediction.\
+It basically uses the function in calculation file. However, it will return a string that straightforwardly tells the user whta he needs to achieve. Also, inside the function, it asks the user to input the total number of task in each category and the expected grade so that the code can automatically fill all the missing task for the user and predict the grade.\
+
+Feel Free to test the code and enjoy it!
