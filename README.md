@@ -20,9 +20,9 @@ If a category has no graded task, it will return -1.
 This method will return the total grade of the course.\
 If a category has no graded task, it will not be included in the calculation.
 6) get_num_task(category_name):\
-This method asks user to enter the name of a category so that it can return the total number of task in that category
+This method asks user to enter the name of a category so that it can return the total number of task in that category.
 7) get_category():\
-This method will give user a list of category name in the course.\
+This method will give user a list of category name in the course.
 
 Some methods are omitted because they are mainly used for other code.
 
@@ -31,11 +31,22 @@ The file is an example of how to use the methods provided in Course.py to implem
 The example given in the file is from the MATA23.txt in the project.
 
 3. calculation.py\
-The file can help you predict how much grade a student need to achieve for the remaining tasks in each category.
+The file can help user predict how much grade a student need to achieve for the remaining tasks in each category.
 To 
 
 4. auto_predicter.py\
-The file includes two parts of codes.\
+The file includes two parts of codes.
 1) Auto entering\
 The first part provides user a convenient way to enter all information of a Course into the code.\
+The user can use either create_course or create_course_helper(file_name) to for auto entering the information.\
+In create_course(), user will be asked to input the name of the text file to create the course.\
+In create_course_helper(), user can directly enter the name of the text file for creating the course.\
+There is a specific formating requirement of the input_file, as follow:\
+Each line of the text should be like:\
+The first element is the name of the category, the second element is the percentage, and the rest should be the grade of tasks in the category. All elements will be seperated by a single space.\
+    quiz 0.2 90 90 95 ...\
+    final 0.45\
+Please refer to MATA23.txt to see in detail.\
+
 2) Auto predicting\
+The second part 
