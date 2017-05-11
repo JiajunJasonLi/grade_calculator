@@ -11,7 +11,6 @@ class WrongPercentageError(Exception):
     pass
 
 
-
 def get_missing_num(course, category):
     '''
     (Course, str) -> int
@@ -45,13 +44,15 @@ def predict_grade(course, expected_grade):
     # Test whether the course has total percentage of 1
     if course.get_total_percentage() != 1:
         # If not, raise WrongPercentage Error
-        raise WrongPercentageError
-    # Initialize the float for a complete grade
+        raise WrongPercentageError()
+    # Initialize the float for calculating complete grade
     complete_grade = 0.0
     complete_percentage = 0
     # Create a dictionary to get grade to calculate
     imcomplete_category = {}
+    # Go through each category in the course
     for each_category in course.get_category():
+        # Get the number of missing task in the category
         num_missing_task = get_missing_num(course, each_category)
         # If the category has no missing task
         if num_missing_task == 0:
@@ -64,17 +65,20 @@ def predict_grade(course, expected_grade):
             complete_percentage += category_percentage
         # If the category has some missing tasks
         else:
+            # Add the category into the imcomplete category with the number
+            # of missing grade
             imcomplete_category[each_category] = num_missing_task
     # Test whether the complete category is 1
     if complete_percentage == 1:
         raise CompleteTaskError()
     # Calculate the how much more grade need to be achieved
     grade_gap = expected_grade - complete_grade
-    # Use the helper
+    # Use the helper to get the estimated grade in imcomplete category
     get_result = predict_grade_helper(course, imcomplete_category, grade_gap,
                                       1 - complete_percentage)
     # If the helper's result is a float
     if isinstance(get_result, float):
+        # Means
         # Add the complete grade into the result
         result = complete_grade + get_result
     # If the helper's result is a dict
@@ -94,8 +98,8 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
     imcomplete categories and the difference in grade, return a dictionary
     that indicates the estimated grade of each tasks in each category that has
     imcomplete tasks. If the grade difference cannot be filled, return a float
-    that reflect change in grade by calculated by maximizing or minimizing
-    the grade of tasks
+    that of the total maximum or the minimum grade can be achieved from all
+    imcomplete category
     REQ: remaining_percentage < 1.0
     '''
 
@@ -113,14 +117,14 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
         current_grade = input_course.get_category_grade(each_category)
         # Get the number of missing task in the category
         num_missing_task = imcomplete_category[each_category]
-        # Get the total expected grade by time the expected grade with the
-        # total number of task in that category
+        # Get the total expected grade by time the expected category grade with
+        # the total number of task in that category
         total_expected_grade = expected_category_grade * total_task
         # Get the number of current grade of existing task
         current_grade = (total_task - num_missing_task) * current_grade
         # Calculate the estimated category grade by first getting the
-        # difference in total grade and dividing it by the number of missing
-        # task
+        # difference between the total grade and the current grade, then
+        # dividing it by the number of missing task
         estimated_grade = (total_expected_grade - current_grade) /\
             num_missing_task
         # If the estimated grade is higher than 100
@@ -154,7 +158,9 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
         result = expected_result
     # If all categories are invalid
     elif len(invalid_list) == len(expected_result):
-        # Get the sum together
+        # No way to get the expected grade
+        # So calculate the maximum or the minimum possible grade for all
+        # imcomplete categories
         result = sum(invalid_list.values())
     # If only some of the categories are invalid
     else:
@@ -162,12 +168,13 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
         used_percentage = 0.0
         new_complete_grade = 0.0
         for each_category in invalid_list:
-            # Sum up the percentage and grade
+            # Sum up the percentage and possible grade in those categories
             used_percentage += input_course.get_percentage(each_category)
             new_complete_grade += invalid_list[each_category]
             # Pop the category from imcomplete category
             imcomplete_category.pop(each_category)
-        # Use the recursion to get the new estimated grade for valid category
+        # Use recursion to get the new estimated grade for remaining valid
+        # categories
         updated_result = predict_grade_helper(input_course,
                                               imcomplete_category,
                                               grade_diff - new_complete_grade,
@@ -175,23 +182,72 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
                                               used_percentage)
         # If the updated result is a dict
         if isinstance(updated_result, dict):
-            # Update the category to the result
+            # Update the newly estimated grade in that category to the result
             expected_result.update(updated_result)
             result = expected_result
         # If the updated result is a float
         elif isinstance(updated_result, float):
-            # Sum up all the estimated sum together that reflect the change in
-            # total grade
+            # Sum up all the estimated grade together that reflect the change
+            # in total grade
             result = sum(invalid_list.values() + updated_result)
     # Return the result
     return result
 
 if __name__ == '__main__':
+    # Test Case that the grade is too low to achieve
     sample = Course('sample')
     sample.add_category('1', 0.7)
     sample.add_category('2', 0.3)
     sample.add_next_grade('1', 80)
     sample.add_next_grade('2', 80)
+    # Add missing task to the Course
     sample.add_task('2', 2)
     a = predict_grade(sample, 40)
+    print(a)
+    # Set the remaing task to 0
+    sample.change_grade('2', 0, 2)
+    # Get the same result as prediction
+    print(a == sample.get_grade())
+
+    # Test Case that the grade is too high to achieve
+    sample = Course('sample')
+    sample.add_category('1', 0.6)
+    sample.add_category('2', 0.4)
+    sample.add_next_grade('1', 40)
+    sample.add_next_grade('2', 40)
+    # Add missing task to the Course
+    sample.add_task('1', 2)
+    sample.add_task('2', 2)
+    a = predict_grade(sample, 80)
+    print(a)
+    # Set the remaing task to 100
+    sample.change_grade('1', 100, 2)
+    sample.change_grade('2', 100, 2)
+    # Get the same result as the prediction
+    print(a == sample.get_grade())
+
+    # Test Case of achieveable grade
+    sample = Course('sample')
+    sample.add_category('1', 0.6)
+    sample.add_category('2', 0.4)
+    sample.add_next_grade('1', 90)
+    sample.add_next_grade('2', 40)
+    # Add missing task to the Course
+    sample.add_task('1', 2)
+    sample.add_task('2', 2)
+    a = predict_grade(sample, 80)
+    print(a)
+
+    # Test Case of a Course with no grade
+    sample = Course('sample')
+    sample.add_category('1', 0.5)
+    sample.add_category('2', 0.3)
+    sample.add_category('3', 0.2)
+    # Add missing task to the Course
+    sample.add_task('1', 1)
+    sample.add_task('1', 2)
+    sample.add_task('2', 1)
+    sample.add_task('3', 1)
+    # Predict the grade
+    a = predict_grade(sample, 80)
     print(a)
