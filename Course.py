@@ -77,6 +77,16 @@ class Course():
         else:
             raise InvalidCategoryException()
 
+    def add_task(self, category_name, num_task):
+        '''
+        (Course, str, int) -> NoneType
+        '''
+
+        if category_name in self._gradebook:
+            self.add_grade(category_name, None, num_task)
+        else:
+            raise InvalidCategoryException()
+
     def add_next_grade(self, category_name, grade):
         '''
         (Course, str, float) -> NoneType
@@ -139,6 +149,30 @@ class Course():
         else:
             raise InvalidCategoryException()
 
+    def get_task_grade(self, category_name, task_num):
+        '''
+        (Course, str, int) -> float or None
+        Given the category name and the number of a task of a course, return
+        the grade of the task
+        REQ: category_name in self._gradebook
+        REQ: task_num in self._gradebook[category_name]
+        '''
+
+        # If the category exists
+        if category_name in self._gradebook:
+            # If the number of task exists
+            if task_num in self._gradebook[category_name]:
+                # Return the grade in the task
+                return self._gradebook[category_name][task_num]
+            # If the number does not exist
+            else:
+                # Raise the invalid movement error
+                raise TaskNumberNotExist()
+        # If the category does not exist
+        else:
+            # Raise the exception
+            raise InvalidCategoryException()
+
     def get_category_grade(self, category_name):
         '''
         (Course, str) -> float or NoneType
@@ -155,7 +189,7 @@ class Course():
             # Go through each task of the category
             for each_task in self._gradebook[category_name]:
                 # Get the score of the task
-                task_score = self._gradebook[category_name][each_task]
+                task_score = self.get_task_grade(category_name, each_task)
                 # If the grade is not equal to None
                 if task_score is not None:
                     # Add the grade into the total
@@ -217,16 +251,6 @@ class Course():
         else:
             raise InvalidCategoryException()
 
-    def add_task(self, category_name, num_task):
-        '''
-        (Course, str, int) -> NoneType
-        '''
-
-        if category_name in self._gradebook:
-            self.add_grade(category_name, None, num_task)
-        else:
-            raise InvalidCategoryException()
-
     def get_num_task(self, category_name):
         '''
         (Course, str) -> int
@@ -254,27 +278,3 @@ class Course():
             category_list.append(each_category)
         # Return the list
         return category_list
-
-    def get_task_grade(self, category_name, task_num):
-        '''
-        (Course, str, int) -> float or None
-        Given the category name and the number of a task of a course, return
-        the grade of the task
-        REQ: category_name in self._gradebook
-        REQ: task_num in self._gradebook[category_name]
-        '''
-
-        # If the category exists
-        if category_name in self._gradebook:
-            # If the number of task exists
-            if task_num in self._gradebook[category_name]:
-                # Return the grade in the task
-                return self._gradebook[category_name][task_num]
-            # If the number does not exist
-            else:
-                # Raise the invalid movement error
-                raise TaskNumberNotExist()
-        # If the category does not exist
-        else:
-            # Raise the exception
-            raise InvalidCategoryException()
