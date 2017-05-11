@@ -282,7 +282,7 @@ class Course():
     def get_total_percentage(self):
         '''
         (Course) -> float
-        Return the sum of percentage of all categories in Course 
+        Return the sum of percentage of all categories in Course
         '''
 
         return sum(self._percentage.values())
