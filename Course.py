@@ -1,12 +1,18 @@
 class InvalidCategoryException(Exception):
+    '''Raise the error if the category is not in the Course'''
     pass
 
 
 class TaskNumberNotExist(Exception):
+    '''Raise the error if the task number in a category is out of range'''
     pass
 
 
 class InvalidMovementError(Exception):
+    '''
+    Raise the error when either add a existing task or change a non-existing
+    task
+    '''
     pass
 
 
