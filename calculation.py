@@ -1,6 +1,17 @@
 from Course import *
 
 
+class CompleteTaskError(Exception):
+    '''Raise the error if there is no imcomplete category'''
+    pass
+
+
+class WrongPercentageError(Exception):
+    '''Raise the error if the total percentage is not equal to one'''
+    pass
+
+
+
 def get_missing_num(course, category):
     '''
     (Course, str) -> int
@@ -32,7 +43,9 @@ def predict_grade(course, expected_grade):
     '''
 
     # Test whether the course has total percentage of 1
-    '''Missing Code'''
+    if course.get_total_percentage() != 1:
+        # If not, raise WrongPercentage Error
+        raise WrongPercentageError
     # Initialize the float for a complete grade
     complete_grade = 0.0
     complete_percentage = 0
@@ -53,7 +66,8 @@ def predict_grade(course, expected_grade):
         else:
             imcomplete_category[each_category] = num_missing_task
     # Test whether the complete category is 1
-    ''' Missing Code'''
+    if complete_percentage == 1:
+        raise CompleteTaskError()
     # Calculate the how much more grade need to be achieved
     grade_gap = expected_grade - complete_grade
     # Use the helper
@@ -116,7 +130,7 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
             possible_grade = 100 * num_missing_task + current_grade
             # Put the possible grade times its percentage to the invalid list
             invalid_list[each_category] = possible_grade *\
-                input_course.get_percentage(each_category)/ total_task
+                input_course.get_percentage(each_category) / total_task
             # Put the estimated grade as 100 into the result
             expected_result[each_category] = 100
         # If the estimated grade is less than 0
@@ -126,7 +140,7 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
             possible_grade = 0 * num_missing_task + current_grade
             # Put the possible grade times its percentage to the invalid list
             invalid_list[each_category] = possible_grade *\
-                input_course.get_percentage(each_category)/ total_task
+                input_course.get_percentage(each_category) / total_task
             # Put the estimated grade as 0 into the result
             expected_result[each_category] = 0
         # If the grade is within right range
@@ -154,7 +168,7 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
             # Pop the category from imcomplete category
             imcomplete_category.pop(each_category)
         # Use the recursion to get the new estimated grade for valid category
-        updated_result = predict_grade_helper(input_course, 
+        updated_result = predict_grade_helper(input_course,
                                               imcomplete_category,
                                               grade_diff - new_complete_grade,
                                               remaining_percentage -
