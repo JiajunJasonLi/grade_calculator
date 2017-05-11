@@ -37,6 +37,7 @@ The example given in the file is from the MATA23.txt in the project.
 3. calculation.py\
 The file can help user predict how much grade a student need to achieve for the remaining tasks in each category.
 To 
+The basic principle of the algorithm is that
 
 4. auto_predicter.py\
 The file includes two parts of codes.
