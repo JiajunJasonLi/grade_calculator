@@ -1,7 +1,11 @@
 # grade calculator and predictor
 
+Link: https://github.com/JiajunJasonLi/grade-calculator
+
 Thanks for taking a look at my project of grade calculator and predictor.\
+
 This is a project called grade calculator and predictor made by Python.\
+
 It can help a user to record all the grade in a course and to predict the grade he needs to get in the remaining tasks in oreder to get the grade he expects.
 
 
@@ -59,7 +63,7 @@ Each line of the text should be like:\
 The first element is the name of the category, the second element is the percentage, and the rest should be the grade of tasks in the category. All elements will be seperated by a single space.\
     quiz 0.2 90 90 95 ...\
     final 0.45\
-Please refer to MATA23.txt to see in detail.\
+Please refer to MATA23.txt to see in detail.
 
 2) Auto predicting\
 The second part has a function prediction(input_course), which asks the user to input a course object for prediction.\
