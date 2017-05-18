@@ -189,7 +189,7 @@ def predict_grade_helper(input_course, imcomplete_category, grade_diff,
         elif isinstance(updated_result, float):
             # Sum up all the estimated grade together that reflect the change
             # in total grade
-            result = sum(invalid_list.values() + updated_result)
+            result = sum(invalid_list.values()) + updated_result
     # Return the result
     return result
 
