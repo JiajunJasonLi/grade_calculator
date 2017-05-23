@@ -67,6 +67,6 @@ Please refer to MATA23.txt to see in detail.
 
 2) Auto predicting\
 The second part has a function prediction(input_course), which asks the user to input a course object for prediction.\
-It basically uses the function in calculation file. However, it will return a string that straightforwardly tells the user whta he needs to achieve. Also, inside the function, it asks the user to input the total number of task in each category and the expected grade so that the code can automatically fill all the missing task for the user and predict the grade.
+It basically uses the function in calculation file. However, it will return a string that straightforwardly tells the user what he needs to achieve. Also, inside the function, it asks the user to input the total number of task in each category and the expected grade so that the code can automatically fill all the missing task for the user and predict the grade.
 
 Feel Free to test the code and enjoy it!
