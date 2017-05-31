@@ -15,22 +15,22 @@ The project includes four parts of python codes:
 The Course file contains a class for user to create a course.\
 For initialization, the user needs to enter the name of the course.\
 It includes some methods that help the user to manipulate the course:
-1) add_category(category_name, percentage):\
-This method asks user to enter the name and percentage of a category to create that category.
-2) add_grade(category_name, grade, num_task):\
+    1) add_category(category_name, percentage):\
+    This method asks user to enter the name and percentage of a category to create that category.
+    2) add_grade(category_name, grade, num_task):\
 This method asks user to enter the name of category, the grade and the number of the task to add the grade into the category.
-3) add_next_grade(category_name, grade):\
+    3) add_next_grade(category_name, grade):\
 This method asks user to enter the name of a category, the grade of a task to add the grade into that category.\
 Please note that it does not need the number of the task because this method will assume the task will be the next.
-4) get_category_grade(category_name):\
+    4) get_category_grade(category_name):\
 This method asks user to enter the name of a category so that it can return the average grade of all tasks in that category.\
 If a category has no graded task, it will return -1.
-5) get_grade():\
+    5) get_grade():\
 This method will return the total grade of the course.\
 If a category has no graded task, it will not be included in the calculation.
-6) get_num_task(category_name):\
+    6) get_num_task(category_name):\
 This method asks user to enter the name of a category so that it can return the total number of task in that category.
-7) get_category():\
+    7) get_category():\
 This method will give user a list of category name in the course.
 
 Some methods are omitted because they are mainly used for other code.
@@ -53,7 +53,7 @@ Then, we need to do the check whether expected grade is valid (within the range 
 
 4. auto_predicter.py\
 The file includes two parts of codes.
-1) Auto entering\
+    1) Auto entering\
 The first part provides user a convenient way to enter all information of a Course into the code.\
 The user can use either create_course or create_course_helper(file_name) to for auto entering the information.\
 In create_course(), user will be asked to input the name of the text file to create the course.\
@@ -65,7 +65,7 @@ The first element is the name of the category, the second element is the percent
     final 0.45\
 Please refer to MATA23.txt to see in detail.
 
-2) Auto predicting\
+    2) Auto predicting\
 The second part has a function prediction(input_course), which asks the user to input a course object for prediction.\
 It basically uses the function in calculation file. However, it will return a string that straightforwardly tells the user what he needs to achieve. Also, inside the function, it asks the user to input the total number of task in each category and the expected grade so that the code can automatically fill all the missing task for the user and predict the grade.
 
