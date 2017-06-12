@@ -46,10 +46,14 @@ In the function predict_course(course, expected_grade), user needs to provide a 
 
 The algorithm of the code is first of all, it will find out which category is complete and which is not. If a category is complete, we get its percentage and its category grade, calculate mutiplation of the grade and percentage to get what is the grade in the course. If a category is imcomplete, we will put it in a dictionary with the number of ungraded task the category has.
 
-Sum up all complete grade, and based on the expected_grade, we can know how much more the user needs to get from other imcomplete category. Suppose the difference in grade is called grade_diff, and we can know the remaining percentage of all imcomplete category.\
-We let grade_diff/remaining_percentage = expected_category_grade, which is the category grade all remaining categories need to achieve. Then we use expected_category_grade times the total number of task in the category to get the total expected grade. Meanwhile we can get current total grade by multipling current_category with current number of graded task in the category.\
-As a result, we will know the difference of current total grade and expected total grade, which is the total grade of the sum of all missing tasks. Then divided by the number of missing task we will get the average grade of the missing task in that category that the user needs to get.\
+Sum up all complete grade, and based on the expected_grade, we can know how much more the user needs to get from other imcomplete category. Suppose the difference in grade is called grade_diff, and we can know the remaining percentage of all imcomplete category.
+
+We let grade_diff/remaining_percentage = expected_category_grade, which is the category grade all remaining categories need to achieve. Then we use expected_category_grade times the total number of task in the category to get the total expected grade. Meanwhile we can get current total grade by multipling current_category with current number of graded task in the category.
+
+As a result, we will know the difference of current total grade and expected total grade, which is the total grade of the sum of all missing tasks. Then divided by the number of missing task we will get the average grade of the missing task in that category that the user needs to get.
+
 Then, we need to do the check whether expected grade is valid (within the range from 0 to 100). If all the grades are valid, we can directly return the result. If all grades are invalid, we will calculate the change in total grade by setting the expected grade to 0 or 100. If only some of the grades are invalid, we will calculate the change in total grade by setting the grade at invalid category to 0 or 100 and calculate the new estimated grade for those valid category.
+
 
 4. auto_predicter.py\
 The file includes two parts of codes.
