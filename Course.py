@@ -7,6 +7,13 @@ class TaskNumberNotExist(Exception):
     '''Raise the error if the task number in a category is out of range'''
     pass
 
+class InvalidGradeException(Exception):
+    '''Raise the error if the grade is not between 0 and 100'''
+    pass
+
+class InvalidPercentageException(Exception):
+    '''Raise the error when the sum of category percentage is greater than 1'''
+    pass
 
 class InvalidMovementError(Exception):
     '''
@@ -49,6 +56,10 @@ class Course():
         REQ: category_percentage <= 1
         '''
 
+        # Check whether the total percentage will be less than 1
+        if(self.get_total_percentage() + category_name > 1):
+            raise InvalidPercentageException()
+
         # Create a new dictionary in gradebook
         self._gradebook[category_name] = {}
         # Add the percentage to with the percentage name
@@ -71,8 +82,12 @@ class Course():
                 raise InvalidMovementError()
             # If the number of task does not exist
             else:
-                # Add the grade with task number under that category
-                self._gradebook[category_name][num_task] = grade
+                # Check whether the grade is within a valid range
+                if(grade is None) or (grade <= 100 and grade >= 0):
+                    # Add the grade with task number under that category
+                    self._gradebook[category_name][num_task] = grade
+                else:
+                    raise InvalidGradeException()
         # If the category does not exist raise an error
         else:
             raise InvalidCategoryException()
@@ -139,8 +154,12 @@ class Course():
         if category_name in self._gradebook:
             # If the task already exists
             if num_task in self._gradebook[category_name]:
-                # Directly change the grade
-                self._gradebook[category_name][num_task] = grade
+                # If grade is within a valid range
+                if(grade is None) or (grade >= 0 and grade <= 100):
+                    # Directly change the grade
+                    self._gradebook[category_name][num_task] = grade
+                else:
+                    raise InvalidGradeException()
             # If the task does not exist
             else:
                 # Raise an invalid movement error
