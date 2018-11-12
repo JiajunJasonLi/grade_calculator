@@ -57,7 +57,7 @@ class Course():
         '''
 
         # Check whether the total percentage will be less than 1
-        if(self.get_total_percentage() + category_name > 1):
+        if(self.get_total_percentage() + category_percentage > 1):
             raise InvalidPercentageException()
 
         # Create a new dictionary in gradebook
